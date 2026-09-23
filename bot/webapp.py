@@ -333,7 +333,7 @@ def create_app():
     app.router.add_get("/", index)
     app.router.add_get("/assets/{name:.*}", spa.asset)
     app.router.add_get("/api/session/{token}", api_session)
-    app.router.add_get("/api/video/{token}", api_video)
+    app.router.add_get("/api/video/{token}", api_video, allow_head=False)
     app.router.add_head("/api/video/{token}", api_video_head)
     app.router.add_post("/api/process", api_process)
     app.router.add_get("/api/job/{job_id}", api_job)
