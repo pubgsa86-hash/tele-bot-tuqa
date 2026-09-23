@@ -1,0 +1,10 @@
+.git
+.gitignore
+.env
+__pycache__
+*.pyc
+web/node_modules
+web/dist
+frames
+*.db
+*.log

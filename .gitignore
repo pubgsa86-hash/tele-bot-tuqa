@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*.db
+*.sqlite3
+.env
+web/node_modules/
+web/dist/
+dist/
+node_modules/
+.venv/
+venv/
+tools/
+.DS_Store
+*.log
+/tmp/
+frames/*
+!frames/.gitkeep

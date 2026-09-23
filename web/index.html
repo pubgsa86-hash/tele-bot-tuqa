@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>محرر الفيديو الدائري</title>
+  </head>
+  <body>
+    <div id="app-shell">
+      <header class="app-header">
+        <div class="header-row">
+          <button id="app-back" class="back-btn" type="button">🔙 رجوع</button>
+          <h1>محرر الفيديو الدائري</h1>
+        </div>
+        <p class="subtitle">اختر المقطع واضبط القصّ الزمني والدائرة ثم اضغط تحويل</p>
+      </header>
+
+      <div id="loading-view" class="view">
+        <div class="spinner"></div>
+        <p>جاري تحميل الفيديو…</p>
+      </div>
+
+      <div id="error-view" class="view" hidden>
+        <h2 id="error-title">تعذّر فتح الجلسة</h2>
+        <p id="error-msg"></p>
+        <button id="error-close" class="primary">إغلاق</button>
+      </div>
+
+      <main id="main-view" hidden>
+        <section class="card">
+          <div id="video-wrap" class="video-wrap">
+            <video id="preview" controls playsinline preload="metadata"></video>
+            <div id="crop-overlay" class="crop-overlay" hidden></div>
+          </div>
+          <div class="meta">
+            <span id="meta-dims">–</span>
+            <span id="meta-dur">–</span>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>المدة</h2>
+          <div class="canvas-box">
+            <canvas id="timeline" class="timeline"></canvas>
+          </div>
+          <div class="duo">
+            <label for="start-slider">البداية</label>
+            <input type="range" id="start-slider" min="0" max="1000" step="1" value="0" />
+            <span id="start-val" class="val">0:00</span>
+          </div>
+          <div class="duo">
+            <label for="end-slider">النهاية</label>
+            <input type="range" id="end-slider" min="0" max="1000" step="1" value="0" />
+            <span id="end-val" class="val">0:00</span>
+          </div>
+          <p id="seg-len" class="hint">0.0 ثانية</p>
+        </section>
+
+        <section class="card">
+          <h2>الحجم</h2>
+          <div id="size-chips" class="chips">
+            <button type="button" data-size="original">أصلي</button>
+            <button type="button" data-size="240">240</button>
+            <button type="button" data-size="320" class="active">320</button>
+            <button type="button" data-size="512">512</button>
+            <button type="button" data-size="640">640</button>
+          </div>
+          <div class="duo">
+            <label for="size-input">حجم مخصص (زوجي)</label>
+            <input type="number" id="size-input" min="16" max="1080" step="2" value="320" />
+            <span id="size-val" class="val">320</span>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>الزوم والتحريك</h2>
+          <div class="duo">
+            <label for="zoom-slider">الزوم</label>
+            <input type="range" id="zoom-slider" min="1" max="4" step="0.1" value="1" />
+            <span id="zoom-val" class="val">×1.0</span>
+          </div>
+          <div class="duo">
+            <label for="pan-x">تحريك أفقي</label>
+            <input type="range" id="pan-x" min="-100" max="100" step="1" value="0" />
+            <span id="pan-x-val" class="val">0</span>
+          </div>
+          <div class="duo">
+            <label for="pan-y">تحريك عمودي</label>
+            <input type="range" id="pan-y" min="-100" max="100" step="1" value="0" />
+            <span id="pan-y-val" class="val">0</span>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>الإطار</h2>
+          <label class="switch">
+            <input type="checkbox" id="frame-toggle" />
+            <span>إظهار إطار حول الدائرة</span>
+          </label>
+          <div class="duo">
+            <label for="frame-color">اللون</label>
+            <input type="color" id="frame-color" value="#ffffff" />
+            <span class="val"></span>
+          </div>
+          <div class="duo">
+            <label for="frame-width">سماكة الإطار</label>
+            <input type="range" id="frame-width" min="1" max="40" step="1" value="4" />
+            <span id="frame-width-val" class="val">4</span>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>دائرة القص</h2>
+          <div class="duo">
+            <label for="c-cx">مركز الدائرة (X)</label>
+            <input type="range" id="c-cx" min="0" max="100" step="1" value="50" />
+            <span id="c-cx-val" class="val">0.50</span>
+          </div>
+          <div class="duo">
+            <label for="c-cy">مركز الدائرة (Y)</label>
+            <input type="range" id="c-cy" min="0" max="100" step="1" value="50" />
+            <span id="c-cy-val" class="val">0.50</span>
+          </div>
+          <div class="duo">
+            <label for="c-d">القطر</label>
+            <input type="range" id="c-d" min="10" max="100" step="1" value="90" />
+            <span id="c-d-val" class="val">0.90</span>
+          </div>
+          <label class="switch">
+            <input type="checkbox" id="mask-toggle" />
+            <span>قناع دائري (تعتيم ما حول الدائرة)</span>
+          </label>
+        </section>
+
+        <section class="card">
+          <h2>العلامة المائية</h2>
+          <label class="switch">
+            <input type="checkbox" id="wm-toggle" />
+            <span>إضافة علامة مائية</span>
+          </label>
+          <input type="text" id="wm-text" maxlength="120" placeholder="نص العلامة المائية" autocomplete="off" />
+          <div class="duo">
+            <label for="wm-size">حجم النص</label>
+            <input type="range" id="wm-size" min="2" max="20" step="1" value="6" />
+            <span id="wm-size-val" class="val">0.06</span>
+          </div>
+          <div class="duo">
+            <label for="wm-opacity">الشفافية</label>
+            <input type="range" id="wm-opacity" min="10" max="100" step="1" value="80" />
+            <span id="wm-opacity-val" class="val">0.80</span>
+          </div>
+          <div class="duo">
+            <label for="wm-pos">الموضع</label>
+            <select id="wm-pos">
+              <option value="tl">أعلى يسار</option>
+              <option value="tc">أعلى وسط</option>
+              <option value="tr">أعلى يمين</option>
+              <option value="ml">منتصف يسار</option>
+              <option value="c">الوسط</option>
+              <option value="mr">منتصف يمين</option>
+              <option value="bl">أسفل يسار</option>
+              <option value="bc">أسفل وسط</option>
+              <option value="br" selected>أسفل يمين</option>
+            </select>
+            <span class="val"></span>
+          </div>
+        </section>
+
+        <button id="convert-btn" class="primary big">تحويل</button>
+
+        <div id="progress-box" class="progress-box" hidden>
+          <div class="progress-track">
+            <div id="progress-bar">0%</div>
+          </div>
+          <p id="progress-text">جارٍ المعالجة…</p>
+        </div>
+
+        <div id="result-box" class="result-box" hidden>
+          <p id="result-msg"></p>
+          <button id="result-close" class="primary">🔙 رجوع</button>
+        </div>
+      </main>
+
+      <div id="toast" class="toast" hidden></div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

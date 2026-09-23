@@ -1,0 +1,397 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #ffffff;
+  --text: #1c1c1e;
+  --hint: #707579;
+  --secondary-bg: #eef1f4;
+  --button: #2ea6ff;
+  --button-text: #ffffff;
+  --border: #e3e6ea;
+  --danger: #d32f2f;
+  --ok: #2ecc71;
+  --tg-bg: var(--bg);
+  --tg-text: var(--text);
+  --tg-hint: var(--hint);
+  --tg-secondary-bg: var(--secondary-bg);
+  --tg-button: var(--button);
+  --tg-button-text: var(--button-text);
+}
+
+:root.dark {
+  --bg: #1c1c1e;
+  --text: #f5f5f5;
+  --hint: #9aa0a6;
+  --secondary-bg: #232326;
+  --button: #5bc0eb;
+  --button-text: #0f0f0f;
+  --border: #323439;
+}
+
+html {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--tg-bg, var(--bg));
+  color: var(--tg-text, var(--text));
+  min-height: 100dvh;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+#app-shell {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px 14px calc(24px + env(safe-area-inset-bottom));
+}
+
+.app-header h1 {
+  margin: 0 0 2px;
+  font-size: 21px;
+}
+
+.header-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-row h1 {
+  flex: 1;
+}
+
+button.back-btn {
+  border: none;
+  border-radius: 20px;
+  padding: 8px 14px;
+  background: #ff6b8a;
+  color: #ffffff;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+button.back-btn:active {
+  opacity: 0.8;
+}
+
+button.back-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.subtitle {
+  color: var(--tg-hint, var(--hint));
+  margin: 0 0 14px;
+  font-size: 13px;
+}
+
+.card {
+  background: var(--tg-secondary-bg, var(--secondary-bg));
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  margin-bottom: 12px;
+  transition: opacity 0.2s ease;
+}
+
+.card h2 {
+  margin: 0 0 10px;
+  font-size: 15px;
+  color: var(--tg-hint, var(--hint));
+  font-weight: 600;
+}
+
+.video-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #000;
+}
+
+#preview {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 320px;
+  background: #000;
+}
+
+.crop-overlay {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+  transition: left 0.05s linear, top 0.05s linear, width 0.05s linear, height 0.05s linear;
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+  color: var(--tg-hint, var(--hint));
+  font-size: 13px;
+  flex-wrap: wrap;
+}
+
+.duo {
+  display: grid;
+  grid-template-columns: 118px 1fr 64px;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.duo label {
+  font-size: 13px;
+  color: var(--tg-hint, var(--hint));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.duo .val {
+  text-align: center;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  border-radius: 6px;
+  background: var(--tg-bg, var(--bg));
+  padding: 3px 4px;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--tg-button, var(--button));
+}
+
+input[type="number"],
+input[type="text"],
+select {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--tg-bg, var(--bg));
+  color: var(--tg-text, var(--text));
+  font: inherit;
+}
+
+input[type="color"] {
+  width: 100%;
+  height: 32px;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--tg-bg, var(--bg));
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.chips button {
+  flex: 1 1 auto;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--tg-bg, var(--bg));
+  color: var(--tg-text, var(--text));
+  font: inherit;
+  cursor: pointer;
+  min-width: 56px;
+}
+
+.chips button.active {
+  background: var(--tg-button, var(--button));
+  color: var(--tg-button-text, var(--button-text));
+  border-color: transparent;
+}
+
+.switch {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 14px;
+  padding: 5px 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.switch input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--tg-button, var(--button));
+  margin: 0;
+}
+
+.switch.on {
+  color: var(--tg-text, var(--text));
+  font-weight: 600;
+}
+
+.hint {
+  color: var(--tg-hint, var(--hint));
+  font-size: 12.5px;
+  margin: 6px 0 0;
+}
+
+.canvas-box {
+  margin-bottom: 6px;
+}
+
+.timeline {
+  width: 100%;
+  display: block;
+}
+
+button.primary {
+  border: none;
+  border-radius: 12px;
+  padding: 12px 16px;
+  background: var(--tg-button, var(--button));
+  color: var(--tg-button-text, var(--button-text));
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button.primary.big {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+button.primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+#convert-btn[hidden] {
+  display: none;
+}
+
+.progress-box {
+  margin: 4px 0 12px;
+}
+
+.progress-track {
+  height: 22px;
+  border-radius: 11px;
+  background: var(--tg-secondary-bg, var(--secondary-bg));
+  border: 1px solid var(--border);
+  overflow: hidden;
+  direction: ltr;
+}
+
+#progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--tg-button, var(--button));
+  color: var(--tg-button-text, var(--button-text));
+  font-size: 12px;
+  line-height: 22px;
+  text-align: center;
+  transition: width 0.4s ease;
+  min-width: 0;
+  white-space: nowrap;
+  border-radius: 0;
+}
+
+#progress-text {
+  margin: 6px 0 0;
+  color: var(--tg-hint, var(--hint));
+  font-size: 13px;
+  text-align: center;
+}
+
+.result-box {
+  padding: 14px;
+  border-radius: 12px;
+  background: rgba(46, 204, 113, 0.12);
+  border: 1px solid var(--ok);
+  text-align: center;
+  margin-top: 10px;
+}
+
+.result-box.error {
+  background: rgba(211, 47, 47, 0.1);
+  border-color: var(--danger);
+}
+
+.result-box p {
+  margin: 0 0 10px;
+  font-size: 14.5px;
+}
+
+.view {
+  text-align: center;
+  padding: 40px 10px;
+  color: var(--tg-hint, var(--hint));
+}
+
+.view h2 {
+  color: var(--tg-text, var(--text));
+}
+
+#error-close {
+  margin-top: 6px;
+}
+
+.spinner {
+  width: 34px;
+  height: 34px;
+  margin: 0 auto 12px;
+  border: 3px solid var(--tg-secondary-bg, var(--secondary-bg));
+  border-top-color: var(--tg-button, var(--button));
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+main.busy input,
+main.busy button,
+main.busy select {
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+main.busy #convert-btn {
+  opacity: 1;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  max-width: calc(100vw - 40px);
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: rgba(28, 28, 30, 0.92);
+  color: #fff;
+  font-size: 13.5px;
+  text-align: center;
+  z-index: 50;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+:root.dark .toast {
+  background: rgba(60, 60, 65, 0.96);
+  color: #f5f5f5;
+}
