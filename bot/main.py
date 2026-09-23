@@ -6,8 +6,11 @@ polls updates, so both live in the same asyncio loop.
 import asyncio
 import logging
 
-from dotenv import load_dotenv
-load_dotenv()
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 
 from aiohttp import web
 from aiogram import Bot, Dispatcher
